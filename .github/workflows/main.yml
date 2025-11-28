@@ -1,0 +1,37 @@
+name: Python VPS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install requirements
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Run your script
+        run: |
+          echo "🔥 Starting your Python script..."
+          python your_script.py
+
+      - name: Keep VPS alive
+        run: |
+          echo "🟢 VPS is running..."
+          while true; do
+            echo "$(date): still alive..."
+            sleep 60
+          done
